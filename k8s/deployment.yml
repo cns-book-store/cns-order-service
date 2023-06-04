@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cns-order-service
+  labels:
+    app: cns-order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cns-order-service
+  template:
+    metadata:
+      labels:
+        app: cns-order-service
+    spec:
+      containers:
+        - name: cns-order-service
+          image: cns-order-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9002
+          env:
+            - name: BPL_JVM_THREAD_COUNT
+              value: "50"
+            - name: SPRING_R2DBC_URL
+              value: r2dbc:postgresql://cns-postgres/cns-order
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://cns-config-service
+            - name: API_CATALOG_SERVICE_URI
+              value: http://cns-catalog-service
+            - name: SPRING_FLYWAY_URL
+              value: jdbc:postgresql://cns-postgres/cns-order
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sh", "-c", "sleep 5" ] #Makes Kubernetes wait 5 seconds before sending the SIGTERM signal to the Pod - facilitating graceful shutdown

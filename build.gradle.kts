@@ -15,6 +15,8 @@ configurations {
 	}
 }
 
+extra["springCloudVersion"] = "2022.0.3"
+
 repositories {
 	mavenCentral()
 }
@@ -24,6 +26,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation("org.springframework.cloud:spring-cloud-starter-config")
+
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.springframework:spring-jdbc")
 	implementation("org.zalando:logbook-spring-boot-webflux-autoconfigure:3.0.0")
@@ -40,6 +44,25 @@ dependencies {
 	testImplementation("com.squareup.okhttp3:mockwebserver")
 }
 
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+	}
+}
+
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.bootBuildImage {
+	imageName.set(project.name)
+	environment.set(mapOf("BP_JVM_VERSION" to "17.*"))
+
+	docker {
+		publishRegistry {
+			username.set(project.findProperty("registryUsername").toString())
+			password.set(project.findProperty("registryToken").toString())
+			url.set(project.findProperty("registryUrl").toString())
+		}
+	}
 }

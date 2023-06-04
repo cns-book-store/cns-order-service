@@ -15,6 +15,21 @@ spring:
     baseline-on-migrate: true
   netty:
     leak-detection: paranoid
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: http://localhost:8888
+      request-connect-timeout: 5000
+      request-read-timeout: 5000
+      fail-fast: false #for local development
+      retry:
+        max-attempts: 6
+        initial-interval: 1000
+        max-interval: 2000
+        multiplier: 1.1
+  application:
+    name: cns-order-service
 
 server:
   port: 9002
