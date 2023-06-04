@@ -1,0 +1,20 @@
+###
+GET http://localhost:9002/api/v1/orders
+
+###
+POST http://localhost:9002/api/v1/orders
+Content-Type: application/json
+
+{
+  "isbn": "1234567891",
+  "quantity": 3
+}
+
+###
+POST http://localhost:9002/api/v1/orders
+Content-Type: application/json
+
+{
+  "isbn": "bad-isbn",
+  "quantity": 3
+}

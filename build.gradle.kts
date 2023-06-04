@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.1.0"
 	id("io.spring.dependency-management") version "1.1.0"
+	id("io.freefair.lombok") version "8.0.1"
 }
 
 group = "inc.evil"
@@ -25,6 +26,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.springframework:spring-jdbc")
+	implementation("org.zalando:logbook-spring-boot-webflux-autoconfigure:3.0.0")
+	implementation("org.zalando:logbook-netty:3.0.0")
 	runtimeOnly("org.postgresql:postgresql")
 	runtimeOnly("org.postgresql:r2dbc-postgresql")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
