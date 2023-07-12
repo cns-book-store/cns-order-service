@@ -36,4 +36,18 @@ public record Order(
     public static Order rejectedOrder(String bookIsbn, int quantity) {
         return Order.of(bookIsbn, null, null, quantity, OrderStatus.REJECTED);
     }
+
+    public static Order dispatchedOrder(Order existingOrder) {
+        return new Order(
+                existingOrder.id(),
+                existingOrder.bookIsbn(),
+                existingOrder.bookName(),
+                existingOrder.bookPrice(),
+                existingOrder.quantity(),
+                OrderStatus.DISPATCHED,
+                existingOrder.createdDate(),
+                existingOrder.lastModifiedDate(),
+                existingOrder.version()
+        );
+    }
 }
