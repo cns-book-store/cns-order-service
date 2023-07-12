@@ -31,6 +31,8 @@ spec:
               value: http://cns-catalog-service
             - name: SPRING_FLYWAY_URL
               value: jdbc:postgresql://cns-postgres/cns-order
+            - name: SPRING_RABBITMQ_HOST
+              value: cns-rabbitmq
           lifecycle:
             preStop:
               exec:
